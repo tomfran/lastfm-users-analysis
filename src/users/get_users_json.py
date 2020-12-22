@@ -21,5 +21,5 @@ if __name__ == "__main__":
                 'age': info['age']}
         users.append(user)
     
-    with open('users.json', 'w') as f:
+    with open(USER_JSON, 'w') as f:
         json.dump(users, f)

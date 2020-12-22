@@ -5,3 +5,4 @@ BASE = 'http://ws.audioscrobbler.com/2.0/?'
 WEEKS_TO_BE_ACTIVE = 4
 COUNTRIES = ['Italy']
 LAST_USER_FILE = 'users1608563630.992054.txt'
+USER_JSON = 'users.json'
