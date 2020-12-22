@@ -1,0 +1,9 @@
+CDC
+    1. registry
+    2. varie implementazioni:
+        2.1 canzoni registry
+        2.2 mappa canzoni per richiesta batch
+        2.3 log table tag per ogni canzone
+    3. mettere tutti i cdc in uno scheduler
+    4. salvare i dati su google cloud
+    
