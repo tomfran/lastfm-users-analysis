@@ -1,10 +1,7 @@
 from abstract_classes import AbstractCDC
 import json
 from os import path
-import time
 from abc import ABCMeta, abstractmethod
-
-# from pprint import pprint
 
 class AbstractRegistryCDC(AbstractCDC, metaclass = ABCMeta):
 
@@ -15,7 +12,7 @@ class AbstractRegistryCDC(AbstractCDC, metaclass = ABCMeta):
     def get_fresh_rows(self):
         self.destination.rollback()
         # print('\tREGISTRY CDC: looking for new tuples')
-        table = self.source.read()
+        table = self.access_fields(self.source.read())
         # print('\tREGISTRY CDC: computing hashes and comparing with old state')
         state = [{
                     'khash' : hash(e[self.key_attr]), 
@@ -47,7 +44,6 @@ class AbstractRegistryCDC(AbstractCDC, metaclass = ABCMeta):
         
         if inserted_rows + modified_rows:
             self.destination.write(inserted_rows + modified_rows)
-            time.sleep(3)
             self.destination.commit()
             self.update_sync(state)
             # print('\tREGISTRY CDC: done')
