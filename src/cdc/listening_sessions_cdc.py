@@ -14,7 +14,7 @@ class ListeningSessionsCDC(AbstractLogCDC):
         with open(path, 'a+') as f:
             f.write(json.dumps(songs_dict, indent=4, sort_keys=True))
 
-    def access_fields(self, table):
+    def access_fields(self, tables):
         songs_dict = {}
         def process_track(tr, user):
             artist = tr['artist']['#text']
@@ -26,15 +26,27 @@ class ListeningSessionsCDC(AbstractLogCDC):
                 'song_id' : key,
                 'ts' : int(tr['date']['uts'])
             }
-        user = table['recenttracks']['@attr']['user']
-        ret = [process_track(e, user=user) for e in table['recenttracks']['track']]
+        ret = []
+        for table in tables:
+            user = table['recenttracks']['@attr']['user']
+            ret += [process_track(e, user=user) for e in table['recenttracks']['track']]
         self.save_songs_to_request(songs_dict)
         return ret
 
 if __name__ == "__main__":
-    from api_source import ApiSource
+    from batch_api_source import BatchApiSource
     from cloud_datalake import CloudDatalake
-    source = ApiSource(method='user.getrecenttracks', method_params={'user' : 'giacomo109', 'from' : '1608398626'}, other_params={'limit':500})
+    param_list = [
+            {   
+                "method_params" : {'user' : 'giacomo109', 'from' : '1608398626'}, 
+                'other_params' : {'limit':500}
+            },
+            {   
+                "method_params" : {'user' : 'ermonnezza', 'from' : '1608398626'}, 
+                'other_params' : {'limit':500}
+            }
+    ]
+    batch = BatchApiSource('user.getrecenttracks', param_list)
     datalake = CloudDatalake('data/datalake_log')
-    cdc = ListeningSessionsCDC(source, datalake, 'data/datalake_log/sync.json', 'threshold', 'ts', 'data/datalake_log')
+    cdc = ListeningSessionsCDC(batch, datalake, 'data/datalake_log/sync.json', 'threshold', 'ts', 'data/datalake_log')
     cdc.get_fresh_rows()

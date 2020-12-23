@@ -4,7 +4,7 @@ from constants import *
 import json
 
 class ApiSource(AbstractSource):
-    def __init__(self, method, method_params, other_params ={}):
+    def __init__(self, method, method_params = {}, other_params = {}):
         self.method = method
         self.method_params = method_params
         self.other_params = other_params
@@ -19,13 +19,20 @@ class ApiSource(AbstractSource):
         req_query += f"&api_key={KEY}&format=json"
         return req_query
 
+    def set_params(self, mp, op):
+        self.method_params = mp
+        self.other_params = op
+
     # read  source
     def read(self):
         r = requests.get(self.__get_request_query())
         try:
             return r.json()
         except Exception:
-            return {}
+            return {'error' : r, 
+                    'method': self.method_params, 
+                    'params' : self.method_params, 
+                    'other_params' : self.other_params}
 
 if __name__ == "__main__":
     from pprint import pprint
