@@ -1,8 +1,8 @@
-from abstract_classes import AbstractCDC
 import json
 from os import path
 import time
 from abc import ABCMeta, abstractmethod
+from .abstract_cdc import AbstractCDC
 
 class AbstractLogCDC(AbstractCDC, metaclass = ABCMeta):
 

@@ -12,5 +12,5 @@ class AbstractCDC(metaclass = ABCMeta):
         pass
     
     @abstractmethod
-    def update_sync(self):
+    def update_sync(self, tsh):
         pass

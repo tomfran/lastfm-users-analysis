@@ -4,11 +4,10 @@ from constants import *
 import json
 
 class ApiSource(AbstractSource):
-    def __init__(self, method, method_params, other_params ={}, return_fields= {}):
+    def __init__(self, method, method_params, other_params ={}):
         self.method = method
         self.method_params = method_params
         self.other_params = other_params
-        self.return_fields = return_fields
 
     def __get_request_query(self):
         req_query = f"{BASE}method={self.method}"

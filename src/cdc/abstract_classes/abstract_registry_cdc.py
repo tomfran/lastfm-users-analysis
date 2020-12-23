@@ -1,10 +1,12 @@
-from .abstract_classes import AbstractCDC
+from abstract_classes import AbstractCDC
 import json
 from os import path
 import time
-from pprint import pprint
+from abc import ABCMeta, abstractmethod
 
-class RegistryCDC(AbstractCDC):
+# from pprint import pprint
+
+class AbstractRegistryCDC(AbstractCDC, metaclass = ABCMeta):
 
     def __init__(self, source, destination, syncFile, key_attr):
         super().__init__(source, destination, syncFile)
@@ -12,9 +14,9 @@ class RegistryCDC(AbstractCDC):
 
     def get_fresh_rows(self):
         self.destination.rollback()
-        print('\tREGISTRY CDC: looking for new tuples')
+        # print('\tREGISTRY CDC: looking for new tuples')
         table = self.source.read()
-        print('\tREGISTRY CDC: computing hashes and comparing with old state')
+        # print('\tREGISTRY CDC: computing hashes and comparing with old state')
         state = [{
                     'khash' : hash(e[self.key_attr]), 
                     'hash'  : hash(tuple(v for k, v in e.items() if k != self.key_attr))
@@ -29,7 +31,7 @@ class RegistryCDC(AbstractCDC):
         inserted_rows = []
         if inserted_keys:
             inserted_rows = [e for e in table if hash(e[self.key_attr]) in inserted_keys]
-            print(f'\tREGISTRY CDC: found {len(inserted_rows)} new lines')
+            # print(f'\tREGISTRY CDC: found {len(inserted_rows)} new lines')
 
         # find modified rows
         modified_keys = []
@@ -41,16 +43,16 @@ class RegistryCDC(AbstractCDC):
         modified_rows = []
         if modified_keys:
             modified_rows = [e for e in table if hash(e[self.key_attr]) in modified_keys]
-            print(f'\tREGISTRTY CDC: found {len(modified_rows)} modified lines')
+            # print(f'\tREGISTRTY CDC: found {len(modified_rows)} modified lines')
         
         if inserted_rows + modified_rows:
             self.destination.write(inserted_rows + modified_rows)
             time.sleep(3)
             self.destination.commit()
             self.update_sync(state)
-            print('\tREGISTRY CDC: done')
-        else:
-            print('\tREGISTRY CDC: nothing changed\n')
+            # print('\tREGISTRY CDC: done')
+        # else:
+            # print('\tREGISTRY CDC: nothing changed\n')
 
 
     def read_from_sync(self):
@@ -61,6 +63,10 @@ class RegistryCDC(AbstractCDC):
             return json.load(f)
 
     def update_sync(self, state):
-        print('\tREGISTRY CDC: updating the sync file')
+        # print('\tREGISTRY CDC: updating the sync file')
         with open(self.syncFile, 'w') as f:
             f.write(json.dumps(state, indent=4, sort_keys=True))
+
+    @abstractmethod
+    def access_fields(self, table):
+        pass

@@ -7,3 +7,8 @@ CDC
     3. mettere tutti i cdc in uno scheduler
     4. salvare i dati su google cloud
     
+
+SCELTE
+
+Creiamo una classe che gestisce un file in più che contiene la mappa delle canzoni ascoltate dagli utenti
+Una bach api reqeust userà quel file
