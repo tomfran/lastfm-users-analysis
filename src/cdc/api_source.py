@@ -2,6 +2,7 @@ from abstract_classes import AbstractSource
 import requests
 from constants import *
 import json
+import urllib
 
 class ApiSource(AbstractSource):
     def __init__(self, method, method_params = {}, other_params = {}):
@@ -9,23 +10,22 @@ class ApiSource(AbstractSource):
         self.method_params = method_params
         self.other_params = other_params
 
-    def __get_request_query(self):
-        req_query = f"{BASE}method={self.method}"
-        for k, v in self.method_params.items():
-            req_query += f'&{k}={v}'
-        for k, v in self.other_params.items():
-            req_query += f'&{k}={v}'
-
-        req_query += f"&api_key={KEY}&format=json"
-        return req_query
-
     def set_params(self, mp, op):
         self.method_params = mp
         self.other_params = op
 
+    def get_request_data(self):
+        data = {}
+        data.update(self.method_params)
+        data.update(self.other_params)
+        data['method'] = self.method
+        data['api_key'] = KEY
+        data['format'] = 'json'
+        return data
     # read  source
     def read(self):
-        r = requests.get(self.__get_request_query())
+        r = requests.post(BASE, data=self.get_request_data())
+
         try:
             return r.json()
         except Exception:
