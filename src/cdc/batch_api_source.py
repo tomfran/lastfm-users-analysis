@@ -16,6 +16,6 @@ class BatchApiSource():
                 ret.append(data)
             else:
                 failed_requests.append(data)
-
+                
         # TODO: manage failed requests
         return ret
