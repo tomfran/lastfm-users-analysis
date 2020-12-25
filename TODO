@@ -8,6 +8,48 @@ mettere tutti i cdc in uno scheduler
 SOURCE
 Batch source per gli utenti, come quella fatta per le canzoni
 
-SCELTE
-Creiamo una classe che gestisce un file in più che contiene la mappa delle canzoni ascoltate dagli utenti
-Una bach api reqeust userà quel file
+DESTINATION
+mettere data oggi nel filename, per GCP fare classe figlio che riscrive write
+
+
+
+
+
+
+
+
+
+APPUNTI/SCELTE
+
+region location --> decreased network latency and handle failures
+                    gdpr --> policy privacy
+                    
+                    zurich --> europe-west-6-a
+                    
+machine types --> E2, db non troppo grande e computing at a lower cost (cost-optimized)
+                  standard
+                                
+BUCKET
+    name: songs-lastfm
+    region: zurich
+        single region --> region, bassa latenza (perdiano aviability per non avere il duplicato ma costa meno, app non è multinazionali.. ci accediamo solo noi dall'italia per lavorarci)
+    type: usiamo lo standard, operazioni classi a e b più conveniente, per salvare dati a lungo termine possiamo poi campiare il tipo di bucket
+    access control: uniform --> possiamo cambiarlo, accessi tutti decisi da IAM
+    encryption: google-managed key --> non ci interessa molto, preferiamo per comodità se ne occupi google
+    
+scelta app engine standard enviroment: 
+    instance class: partiamo dda f1 per fare qualche prova.. poi valutiamo che F scegliere
+                    vantaggio tipo F: scaling auntomatico, più ore di attività free
+                    
+    standard env --> python3.7/8..
+    
+    
+    
+    
+
+
+
+https://cloud.google.com/appengine/docs/standard/python3/scheduling-jobs-with-cron-yaml <-- SCHEDULING
+
+
+export GOOGLE_APPLICATION_CREDENTIALS = PATH_CHIAVE <-- export per accedere ai bucket
