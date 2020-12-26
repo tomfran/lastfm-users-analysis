@@ -19,7 +19,7 @@ class CloudDatalake (AbstractDestination):
             #     dd.update(row)
             #     to_write.append(dd)
             # f.write(json.dumps(to_write, indent=4, sort_keys=True))
-            f.write(json.dumps(rows, indent=4, sort_keys=True))
+            f.write(json.dumps(rows, indent=4, sort_keys=True, ensure_ascii=False))
         self.last_name += 1
 	# commits tmp files to json files
     def commit(self):

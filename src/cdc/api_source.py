@@ -36,5 +36,5 @@ class ApiSource(AbstractSource):
 
 if __name__ == "__main__":
     from pprint import pprint
-    a = ApiSource(method='user.getrecenttracks', method_params={'user' : 'giacomo109', 'from' : '1608398626'}, other_params={'limit':500})
-    pprint(a.read()['recenttracks']['@attr'])
+    a = ApiSource(method='track.getinfo', method_params={'artist' : 'cher', 'track' : 'believe'}, other_params={'limit':500})
+    pprint(a.read())

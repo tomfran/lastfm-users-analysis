@@ -21,6 +21,6 @@ class BatchApiSource():
                 e = data
                 e.update(param)
                 failed_requests.append(e)
-        pprint(failed_requests)
+        # pprint(failed_requests)
         # TODO: manage failed requests
         return ret
