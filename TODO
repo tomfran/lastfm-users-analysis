@@ -1,19 +1,17 @@
 GENERALE
-X Organizzare i vari file in packages e fare un main che chiama tutto
 
 DESTINAZIONE
 Scrivere sync file di default
 
 CDC
-X Salvare i tag delle canzoni
 Controllare errore in listening sessions se è nowplaying, serve testarlo
+
+BATCH LISTENINBG SESSIONS
+prendere il parametro 'from' nel costruttore dal cdc, altrimenti fa schifo
 
 CLOUD
 salvare i dati su google cloud
 mettere tutti i cdc in uno scheduler    
-
-SOURCE
-X Batch source per gli utenti, come quella fatta per le canzoni
 
 DESTINATION
 mettere data oggi nel filename, per GCP fare classe figlio che riscrive write
