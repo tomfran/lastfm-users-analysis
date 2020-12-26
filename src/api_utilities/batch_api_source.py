@@ -1,4 +1,4 @@
-from api_source import ApiSource
+from .api_source import ApiSource
 from pprint import pprint
 
 class BatchApiSource():

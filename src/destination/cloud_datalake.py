@@ -1,4 +1,4 @@
-from abstract_classes import AbstractDestination
+from .abstract_classes import AbstractDestination
 import os
 from datetime import datetime
 import json

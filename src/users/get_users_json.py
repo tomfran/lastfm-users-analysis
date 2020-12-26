@@ -1,7 +1,8 @@
+# exec(open("config.py").read())
 from users import *
 import json
 
-exec(open("config.py").read())
+# from .config import *
 
 if __name__ == "__main__":
     with open(LAST_USER_FILE) as f:
@@ -9,7 +10,8 @@ if __name__ == "__main__":
     
     users = []
 
-    for name in names:
+    for i, name in enumerate(names):
+        print(i)
         name = name.strip()
         info = get_user_info(name)
         user = {'name': name, 
@@ -22,4 +24,4 @@ if __name__ == "__main__":
         users.append(user)
     
     with open(USER_JSON, 'w') as f:
-        json.dump(users, f)
+        f.write(json.dumps(users, indent=4, sort_keys=True, ensure_ascii=False))

@@ -14,8 +14,8 @@ class AbstractLogCDC(AbstractCDC, metaclass = ABCMeta):
     def get_fresh_rows(self):
         self.destination.rollback()
         # print('\tLOG CDC: looking for new tuples')
-        table = self.access_fields(self.source.read())
         ths = self.read_from_sync()
+        table = self.access_fields(self.source.read())
         # print('\tLOG CDC: comparing chrono attribute with old max one')
         filtered = [row for row in table if row[self.sync_attr] > ths]
         if filtered:

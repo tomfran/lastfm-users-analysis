@@ -1,4 +1,4 @@
-from abstract_classes import AbstractCDC
+from .abstract_cdc import AbstractCDC
 import json
 from os import path
 from abc import ABCMeta, abstractmethod

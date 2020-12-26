@@ -1,6 +1,6 @@
-from abstract_classes import AbstractSource
+from .abstract_classes import AbstractSource
 import requests
-from constants import *
+from .constants import *
 import json
 import urllib
 
@@ -24,9 +24,8 @@ class ApiSource(AbstractSource):
         return data
     # read  source
     def read(self):
-        r = requests.post(BASE, data=self.get_request_data())
-
         try:
+            r = requests.post(BASE, data=self.get_request_data())
             return r.json()
         except Exception:
             return {'error' : r, 

@@ -1,4 +1,4 @@
-from abstract_classes import AbstractLogCDC
+from .abstract_classes import AbstractLogCDC
 import time
 from datetime import datetime
 import json
@@ -17,6 +17,9 @@ class ListeningSessionsCDC(AbstractLogCDC):
     def access_fields(self, tables):
         songs_dict = {}
         def process_track(tr, user):
+            if tr.get('@attr') and tr['@attr']['nowplaying'] == 'true':
+                return {}
+
             artist = tr['artist']['#text']
             name = tr['name']
             key = hash(artist + name)
@@ -31,22 +34,13 @@ class ListeningSessionsCDC(AbstractLogCDC):
             user = table['recenttracks']['@attr']['user']
             ret += [process_track(e, user=user) for e in table['recenttracks']['track']]
         self.save_songs_to_request(songs_dict)
-        return ret
+        return [e for e in ret if e]
 
 if __name__ == "__main__":
-    from batch_api_source import BatchApiSource
+    from users_batch_api_source import UsersBatchSource
     from cloud_datalake import CloudDatalake
-    param_list = [
-            {   
-                "method_params" : {'user' : 'giacomo109', 'from' : '1608398626'}, 
-                'other_params' : {'limit':500}
-            },
-            {   
-                "method_params" : {'user' : 'ermonnezza', 'from' : '1608398626'}, 
-                'other_params' : {'limit':500}
-            }
-    ]
-    batch = BatchApiSource('user.getrecenttracks', param_list)
+   
     datalake = CloudDatalake('data/datalake_log')
+    batch = UsersBatchSource('src/users/users.json', 'data/datalake_log/sync.json')
     cdc = ListeningSessionsCDC(batch, datalake, 'data/datalake_log/sync.json', 'threshold', 'ts', 'data/datalake_log')
     cdc.get_fresh_rows()

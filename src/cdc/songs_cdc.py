@@ -1,4 +1,4 @@
-from abstract_classes import AbstractRegistryCDC
+from .abstract_classes import AbstractRegistryCDC
 
 class SongsCDC(AbstractRegistryCDC):
     def access_fields(self, table):
@@ -33,19 +33,8 @@ class SongsCDC(AbstractRegistryCDC):
 if __name__ == "__main__":
     from songs_batch_api_source import SongsBatchSource
     from cloud_datalake import CloudDatalake
-    batch = SongsBatchSource('data/datalake_log/TEST.json')
+    batch = SongsBatchSource('data/datalake_log/20201226.json')
     
     datalake = CloudDatalake('data/datalake_reg')
     cdc = SongsCDC(batch, datalake, 'data/datalake_reg/sync.json', 'song_id')
     cdc.get_fresh_rows()
-    # cdc.source.method_params_list = [
-    #         {   
-    #             "method_params" : {'artist' : 'cher', 'track' : 'believe'}, 
-    #             'other_params' : {}
-    #         },
-    #         {   
-    #             "method_params" : {'artist' : 'Green Day', 'track' : '21 Guns'}, 
-    #             'other_params' : {}
-    #         }
-    # ]
-    # cdc.get_fresh_rows()

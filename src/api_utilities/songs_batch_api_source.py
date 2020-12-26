@@ -1,4 +1,4 @@
-from batch_api_source import BatchApiSource
+from .batch_api_source import BatchApiSource
 import json
 
 class SongsBatchSource(BatchApiSource):
@@ -7,7 +7,6 @@ class SongsBatchSource(BatchApiSource):
         super().__init__('track.getinfo', param_list)
 
     def get_param_list(self, path):
-        from pprint import pprint
         with open(path, 'r') as f:
             data = json.load(f)
             return [{'method_params' : v, 'other_params' : {}} for k, v in data.items()]

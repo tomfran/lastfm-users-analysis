@@ -1,12 +1,19 @@
+GENERALE
+X Organizzare i vari file in packages e fare un main che chiama tutto
+
+DESTINAZIONE
+Scrivere sync file di default
+
 CDC
 X Salvare i tag delle canzoni
+Controllare errore in listening sessions se è nowplaying, serve testarlo
 
 CLOUD
 salvare i dati su google cloud
 mettere tutti i cdc in uno scheduler    
 
 SOURCE
-Batch source per gli utenti, come quella fatta per le canzoni
+X Batch source per gli utenti, come quella fatta per le canzoni
 
 SCELTE
 Creiamo una classe che gestisce un file in più che contiene la mappa delle canzoni ascoltate dagli utenti

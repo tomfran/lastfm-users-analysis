@@ -1,6 +1,8 @@
 import requests
 
-exec(open("config.py").read())
+from config import *
+
+# exec(open("config.py").read())
 
 def get_user_most_recent_track(user):
     response = requests.get(BASE + "method=user.getrecenttracks&user=" +
