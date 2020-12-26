@@ -9,6 +9,7 @@ class CloudDatalake (AbstractDestination):
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
         self.last_name = 0
+    # TODO mettere data oggi, per GCP fare classe figlio che riscrive write
 	# writes rows in files .tmp
     def write(self, rows):
         # print("\tDATALAKE: Writing tmp rows")
@@ -27,6 +28,7 @@ class CloudDatalake (AbstractDestination):
         file_names = [e for e in os.listdir(self.dir_path) if '.tmp' in e]
         for f in file_names:
             os.rename(f'{self.dir_path}/{f}', f"{self.dir_path}/{f.replace('.tmp','.json')}")
+            # TODO controllare se riscrive file o cambia effettivamente solo il nome
 	# checking for existence of tmp files and removes them
     def rollback(self):
         # print("\tDATALAKE: Checking if tmp file are on datalake")
