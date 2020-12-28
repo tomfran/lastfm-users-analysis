@@ -3,6 +3,12 @@ GENERALE
 DESTINAZIONE
 Scrivere sync file di default (VEDIAMO SE SERVE SUL CLOUD)
 
+SOURCE
+Prendere ths come parametro, così da evitare di leggere direttaemnte il sync dalla bathsource
+
+LISTENING_SESSIONS
+Scrivere le canzoni da richiedere da un'altra parte
+
 CDC
 Controllare errore in listening sessions se è nowplaying, serve testarlo
 

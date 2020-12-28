@@ -2,8 +2,11 @@ from .api_source import ApiSource
 from pprint import pprint
 
 class BatchApiSource():
-    def __init__(self, method, method_params_list):
+    def __init__(self, method):
         self.api_source = ApiSource(method=method)
+        self.method_params_list = []
+        
+    def update_param_list(self, method_params_list):
         self.method_params_list = method_params_list
 
     def read(self):

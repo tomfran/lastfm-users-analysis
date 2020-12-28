@@ -9,6 +9,22 @@ class ListeningSessionsCDC(AbstractLogCDC):
         super().__init__(source, destination, syncFile, chrono_attr, sync_attr)
         self.songs_file_path = songs_file_path
 
+    def get_fresh_rows(self):
+        self.destination.rollback()
+        # read the threshold from the sync file
+        ths = self.read_from_sync()
+        # update 'from' parameter in the batch recent tracks source, 
+        # to get only new listened songs
+        self.source.update_from(ths)
+        table = self.access_fields(self.source.read())
+        # no need to filter only tracks newer then ths, as the api request
+        # already do so
+        if table:
+            self.destination.write(table)
+            new_ths = max([x[self.sync_attr] for x in table])
+            self.update_sync(new_ths)
+            self.destination.commit()
+
     def save_songs_to_request(self, songs_dict):
         path = f"{self.songs_file_path}/{datetime.today().strftime('%Y%m%d')}.json"
         with open(path, 'a+') as f:
@@ -35,12 +51,3 @@ class ListeningSessionsCDC(AbstractLogCDC):
             ret += [process_track(e, user=user) for e in table['recenttracks']['track']]
         self.save_songs_to_request(songs_dict)
         return [e for e in ret if e]
-
-if __name__ == "__main__":
-    from users_batch_api_source import UsersBatchSource
-    from cloud_datalake import CloudDatalake
-   
-    datalake = CloudDatalake('data/datalake_log')
-    batch = UsersBatchSource('src/users/users.json', 'data/datalake_log/sync.json')
-    cdc = ListeningSessionsCDC(batch, datalake, 'data/datalake_log/sync.json', 'threshold', 'ts', 'data/datalake_log')
-    cdc.get_fresh_rows()

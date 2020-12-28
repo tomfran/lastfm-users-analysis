@@ -2,14 +2,11 @@ from .batch_api_source import BatchApiSource
 import json
 
 class SongsBatchSource(BatchApiSource):
-    def __init__(self, file_path):
-        param_list = self.get_param_list(file_path)
-        super().__init__('track.getinfo', param_list)
+    def __init__(self):
+        super().__init__('track.getinfo')
 
-    def get_param_list(self, path):
-        with open(path, 'r') as f:
-            data = json.load(f)
-            return [{'method_params' : v, 'other_params' : {}} for k, v in data.items()]
+    def update_songs_to_request(self, songs_data):
+        self.update_param_list(self.get_param_list(songs_data))
 
-if __name__ == "__main__":
-    b = SongsBatchSource('data/datalake_log/20201224.json')
+    def get_param_list(self, songs_data):
+        return [{'method_params' : v, 'other_params' : {}} for k, v in songs_data.items()]

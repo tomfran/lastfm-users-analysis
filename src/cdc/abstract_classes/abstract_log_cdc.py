@@ -15,6 +15,7 @@ class AbstractLogCDC(AbstractCDC, metaclass = ABCMeta):
         self.destination.rollback()
         # print('\tLOG CDC: looking for new tuples')
         ths = self.read_from_sync()
+
         table = self.access_fields(self.source.read())
         # print('\tLOG CDC: comparing chrono attribute with old max one')
         filtered = [row for row in table if row[self.sync_attr] > ths]

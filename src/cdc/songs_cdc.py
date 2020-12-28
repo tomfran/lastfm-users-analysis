@@ -1,6 +1,22 @@
 from .abstract_classes import AbstractRegistryCDC
+from datetime import datetime
+import json
 
 class SongsCDC(AbstractRegistryCDC):
+    def __init__(self, source, destination, syncFile, songs_to_request_dir, key_attr):
+        super().__init__(source, destination, syncFile, key_attr)
+        # update the songs source param list, to get the songs 
+        # according to the sync file
+        self.songs_to_request_file = f"{songs_to_request_dir}/{datetime.today().strftime('%Y%m%d')}.json"
+        self.update_source()
+    
+    def update_source(self):
+        # read from songs to request file, that is, the songs listened by users today
+        with open(self.songs_to_request_file, 'r') as f:
+            data = json.load(f)
+        # source is of type 'SongsBatchSource'
+        self.source.update_songs_to_request(data)
+
     def access_fields(self, table):
         def process_track(tr):
             tr = tr['track']
@@ -29,12 +45,3 @@ class SongsCDC(AbstractRegistryCDC):
             return ret
 
         return [process_track(row) for row in table]
-
-if __name__ == "__main__":
-    from songs_batch_api_source import SongsBatchSource
-    from cloud_datalake import CloudDatalake
-    batch = SongsBatchSource('data/datalake_log/20201226.json')
-    
-    datalake = CloudDatalake('data/datalake_reg')
-    cdc = SongsCDC(batch, datalake, 'data/datalake_reg/sync.json', 'song_id')
-    cdc.get_fresh_rows()
