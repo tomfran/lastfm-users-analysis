@@ -1,2 +1,4 @@
 1. Cosa succede in batch api request se salta una richiesta per più di due volte?
-2. Abbiamo qualche problema a richiedere all'api una coppia song artist con qualche carattere speciale
+
+
+2. Service broker per il risultato delle chiamate cdc?

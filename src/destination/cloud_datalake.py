@@ -8,20 +8,19 @@ class CloudDatalake (AbstractDestination):
         self.dir_path = dir_path
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
-        self.last_name = 0
+        
     # TODO mettere data oggi, per GCP fare classe figlio che riscrive write
 	# writes rows in files .tmp
     def write(self, rows):
         # print("\tDATALAKE: Writing tmp rows")
         # to_write = []
-        with open(f'{self.dir_path}/update_{self.last_name}.tmp', 'a') as f:
+        with open(f"{self.dir_path}/update_{datetime.today().strftime('%Y%m%d')}.tmp", 'a') as f:
             # for row in rows:
             #     dd = {'timestamp' : str(datetime.now())}
             #     dd.update(row)
             #     to_write.append(dd)
             # f.write(json.dumps(to_write, indent=4, sort_keys=True))
             f.write(json.dumps(rows, indent=4, sort_keys=True, ensure_ascii=False))
-        self.last_name += 1
 	# commits tmp files to json files
     def commit(self):
         # print("\tDATALAKE: Committing tmp to json")
