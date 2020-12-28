@@ -1,10 +1,11 @@
 from api_utilities import SongsBatchSource, UsersBatchSource
 from cdc import ListeningSessionsCDC, SongsCDC
-from destination import CloudDatalake
+from destination import CloudDatalake, CloudStorage
 from datetime import datetime
 
 def main():
-    datalake = CloudDatalake(dir_path='data/listening_sessions')
+    #datalake = CloudDatalake(dir_path='data/listening_sessions')
+    datalake = CloudStorage(dir_path='data/listening_sessions')
     ub = UsersBatchSource(users_file_path='src/users/users_small.json')
     lscdc = ListeningSessionsCDC(source=ub, 
                                  destination=datalake, 
@@ -14,8 +15,11 @@ def main():
                                  songs_file_path='data/songs_to_req')
     lscdc.get_fresh_rows()
 
+    
+
     sb = SongsBatchSource()
-    datalake = CloudDatalake(dir_path='data/songs')
+    datalake = CloudStorage(dir_path='data/songs')
+    #datalake = CloudDatalake(dir_path='data/songs')
     scdc = SongsCDC(source=sb, 
                     destination=datalake, 
                     syncFile='data/songs/sync.json', 
