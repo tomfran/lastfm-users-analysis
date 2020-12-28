@@ -2,12 +2,15 @@ from .abstract_classes import AbstractLogCDC
 import time
 from datetime import datetime
 import json
+import os
 
 class ListeningSessionsCDC(AbstractLogCDC):
 
     def __init__(self, source, destination, syncFile, chrono_attr, sync_attr, songs_file_path):
         super().__init__(source, destination, syncFile, chrono_attr, sync_attr)
         self.songs_file_path = songs_file_path
+        if not os.path.isdir(songs_file_path):
+            os.makedirs(songs_file_path)
 
     def get_fresh_rows(self):
         self.destination.rollback()
