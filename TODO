@@ -1,19 +1,7 @@
 GENERALE
 
-DESTINAZIONE
-Scrivere sync file di default (VEDIAMO SE SERVE SUL CLOUD)
-
-SOURCE
-Prendere ths come parametro, così da evitare di leggere direttaemnte il sync dalla bathsource
-
-LISTENING_SESSIONS
-Scrivere le canzoni da richiedere da un'altra parte
-
 CDC
 Controllare errore in listening sessions se è nowplaying, serve testarlo
-
-BATCH LISTENINBG SESSIONS
-prendere il parametro 'from' nel costruttore dal cdc, altrimenti fa schifo
 
 CLOUD
 salvare i dati su google cloud
@@ -22,12 +10,13 @@ mettere tutti i cdc in uno scheduler
 DESTINATION
 mettere data oggi nel filename, per GCP fare classe figlio che riscrive write
 
-
-
-
-
-
-
+SCHEDULING
+Schedulare con chrono la coda, 
+poi, creare una coda che gestisca lo scheduling stile broker, quindi:
+    - cdc listening con scrittura
+    - cdc songs con scrittura
+    - spark
+    - altro???
 
 
 APPUNTI/SCELTE
