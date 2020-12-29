@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 import json
 from google.cloud import storage
-
+import re
 
 def rename_blob(bucket_name, blob_name, new_name):
     """Renames a blob."""
@@ -49,6 +49,18 @@ def list_blobs(bucket_name):
     for blob in blobs:
         print(blob.name)
 
+def list_blobs_for_rollback(bucket_name):
+    """Lists all the blobs in the bucket."""
+    # bucket_name = "your-bucket-name"
+
+    storage_client = storage.Client()
+
+    # Note: Client.list_blobs requires at least package version 1.17.0.
+    blobs = storage_client.list_blobs(bucket_name)
+
+    for blob in blobs:
+        if (re.match('.*.tmp$', blob.name)):
+            delete_blob(bucket_name, blob.name)
 
 def delete_blob(bucket_name, blob_name):
     """Deletes a blob from the bucket."""
@@ -120,7 +132,7 @@ class CloudStorage (AbstractDestination):
             # print("\tDATALAKE: Removing inconsistent data")
         #for f in file_names:
         #    os.remove(f'{self.dir_path}/{f}')
-        list_blobs(bucket_name=self.bucket)
+        list_blobs_for_rollback(bucket_name=self.bucket)
         # TODO eliminare tmp in locale, fare download e upload del sync bucket
 
 		
