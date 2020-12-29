@@ -3,8 +3,16 @@ from cdc import ListeningSessionsCDC, SongsCDC
 from destination import CloudDatalake, CloudStorage
 from datetime import datetime
 import os
+import shutil
 
 def main():
+
+    
+    try:
+        shutil.rmtree('data')
+    except:
+        pass
+
 
     #datalake = CloudDatalake(dir_path='data/listening_sessions')
     datalake = CloudStorage(dir_path='data/listening_sessions')
