@@ -2,11 +2,13 @@ from api_utilities import SongsBatchSource, UsersBatchSource
 from cdc import ListeningSessionsCDC, SongsCDC
 from destination import CloudDatalake, CloudStorage
 from datetime import datetime
+import os
 
 def main():
+
     #datalake = CloudDatalake(dir_path='data/listening_sessions')
     datalake = CloudStorage(dir_path='data/listening_sessions')
-    ub = UsersBatchSource(users_file_path='src/users/users_small.json')
+    ub = UsersBatchSource(users_file_path='src/users/users.json')
     lscdc = ListeningSessionsCDC(source=ub, 
                                  destination=datalake, 
                                  syncFile='data/listening_sessions/sync.json', 
