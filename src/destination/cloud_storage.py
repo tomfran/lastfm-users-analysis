@@ -101,10 +101,18 @@ class CloudStorage (AbstractDestination):
         self.dir_path = dir_path
         self.path = f"{dir_path}/update_{datetime.today().strftime('%Y%m%d')}.tmp"
 
+        self.sync_path = f"{self.dir_path}/sync.json"
+        try:
+            download_blob(bucket_name=self.bucket, source_blob_name=self.sync_path, destination_file_name=self.sync_path)
+        except:
+            os.remove(self.sync_path)
+            pass #for first commit on bucket
+
+
 	# writes rows in files .tmp
     def write(self, rows):
         with open(self.path, 'a') as f:
-            f.write(json.dumps(rows, indent=4, sort_keys=True))
+            f.write(json.dumps(rows, indent=4, sort_keys=True, ensure_ascii=False))
 
         upload_blob(bucket_name=self.bucket, source_file_name=self.path, destination_blob_name=self.path)
         
@@ -116,6 +124,8 @@ class CloudStorage (AbstractDestination):
             rename_blob(bucket_name=self.bucket, blob_name=f'{self.dir_path}/{f}', new_name=f"{self.dir_path}/{f.replace('.tmp','.json')}")
 
         os.remove(self.path)  #rimuoviamo da "locale" dopo upload su bucket
+
+        upload_blob(bucket_name=self.bucket, source_file_name=self.sync_path, destination_blob_name=self.sync_path)
 
             #os.rename(f'{self.dir_path}/{f}', f"{self.dir_path}/{f.replace('.tmp','.json')}")
             # TODO controllare se riscrive file o cambia effettivamente solo il nome
