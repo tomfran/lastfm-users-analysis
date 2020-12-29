@@ -1,5 +1,7 @@
 from .api_source import ApiSource
 from pprint import pprint
+import os
+from datetime import datetime
 
 class BatchApiSource():
     def __init__(self, method):
@@ -24,5 +26,10 @@ class BatchApiSource():
                 e = data
                 e.update(param)
                 failed_requests.append(e)
-        # TODO: manage failed requests
+        if failed_requests:
+            if not os.path.isdir("log"):
+                os.makedirs("log")
+            with open("log/batch_api_errors.log", 'a+') as f:
+                f.write(f"{datetime.today().strftime('%Y%m%d')}\n")
+                f.write("\n".join(failed_requests))
         return ret
