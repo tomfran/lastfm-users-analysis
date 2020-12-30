@@ -31,5 +31,5 @@ class BatchApiSource():
                 os.makedirs("log")
             with open("log/batch_api_errors.log", 'a+') as f:
                 f.write(f"{datetime.today().strftime('%Y%m%d')}\n")
-                f.write("\n".join(failed_requests))
+                f.write(f'{failed_requests}\n')
         return ret
