@@ -12,4 +12,4 @@ class UsersBatchSource(BatchApiSource):
     def get_param_list(self, from_tsh):
         with open(self.users_file_path, 'r') as f:
             data = json.load(f)
-            return [{'method_params' : {'user' : e['name'], "from" : from_tsh}, 'other_params' : {'limit':5}} for e in data]
+            return [{'method_params' : {'user' : e['name'], "from" : from_tsh}, 'other_params' : {'limit':500}} for e in data]

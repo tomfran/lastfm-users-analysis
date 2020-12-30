@@ -37,18 +37,26 @@ class ListeningSessionsCDC(AbstractLogCDC):
     def access_fields(self, tables):
         songs_dict = {}
         def process_track(tr, user):
-            if tr.get('@attr') and tr['@attr']['nowplaying'] == 'true':
-                return {}
+            try:
+                if tr.get('@attr') and tr['@attr']['nowplaying'] == 'true':
+                    return {}
 
-            artist = tr['artist']['#text']
-            name = tr['name']
-            key = hash(artist + name)
-            songs_dict[key] = {"artist": artist, "track" : name}
-            return {
-                'user_id' : user,
-                'song_id' : key,
-                'ts' : int(tr['date']['uts'])
-            }
+                artist = tr['artist']['#text']
+                name = tr['name']
+                key = hash(artist + name)
+                songs_dict[key] = {"artist": artist, "track" : name}
+                return {
+                    'user_id' : user,
+                    'song_id' : key,
+                    'ts' : int(tr['date']['uts'])
+                }
+            except:
+                # if not os.path.isdir("log"):
+                #     os.makedirs("log")
+                # with open("log/listening_session_errors.log", 'a+') as f:
+                #     f.write(f"{datetime.today().strftime('%Y%m%d')}-{str(tr)}\n")
+                # TODO: sistemare logging
+                return {}
         ret = []
         for table in tables:
             user = table['recenttracks']['@attr']['user']
