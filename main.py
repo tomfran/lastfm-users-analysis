@@ -1,6 +1,13 @@
 from src.api_utilities import SongsBatchSource, UsersBatchSource
 from src.cdc import ListeningSessionsCDC, SongsCDC
 from src.destination import CloudDatalake, CloudStorage
+import shutil
+
+def clean_data():
+    try:
+        shutil.rmtree('data')
+    except:
+        pass
 
 def listening_sessions_job():
     datalake = CloudStorage(dir_path='data/listening_sessions')
@@ -26,4 +33,5 @@ def songs_cdc_job():
     scdc.get_fresh_rows()
 
 if __name__ == "__main__":
+    clean_data()
     listening_sessions_job()
