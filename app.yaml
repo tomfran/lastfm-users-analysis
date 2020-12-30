@@ -1,6 +1,14 @@
-runtime: python38 # or another supported version
+runtime: python37 # or another supported version
 
 instance_class: F2
 
 env_variables:
-  BUCKET_NAME:  'songs-lastfm"
+  BUCKET_NAME: "songs-lastfm"
+  
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: auto
+
