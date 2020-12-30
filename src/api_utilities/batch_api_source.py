@@ -14,9 +14,9 @@ class BatchApiSource():
     def read(self):
         ret = []
         failed_requests = []
-        print('BATCH REQUESTS')
+        print(f'Batch API requests for {self.api_source.method}')
         for i, param in enumerate(self.method_params_list):
-            print(f'{i+1} out of {len(self.method_params_list)}')
+            print(f"\r[ ]\tRequest {i+1} out of {len(self.method_params_list)}", end = '', flush=True)
             self.api_source.set_params(param['method_params'], 
                                     param['other_params'])
             data = self.api_source.read()
@@ -26,6 +26,9 @@ class BatchApiSource():
                 e = data
                 e.update(param)
                 failed_requests.append(e)
+
+        print("\r[\033[1m\033[92m✓\033[0m]\tAll requests done\033[K")
+        
         if failed_requests:
             if not os.path.isdir("log"):
                 os.makedirs("log")
