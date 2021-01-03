@@ -2,6 +2,8 @@ from src.api_utilities import SongsBatchSource, UsersBatchSource
 from src.cdc import ListeningSessionsCDC, SongsCDC
 from src.destination import CloudDatalake, CloudStorage
 import shutil
+from googleapiclient import discovery
+from oauth2client.client import GoogleCredentials
 
 def clean_data():
     try:
@@ -30,7 +32,24 @@ def songs_cdc_job():
                     key_attr='song_id')
     scdc.get_fresh_rows()
 
+def shutdown_vm():
+    credentials = GoogleCredentials.get_application_default()
+
+    service = discovery.build('compute', 'v1', credentials=credentials)
+
+    # Project ID for this request.
+    project = 'lastfm-299413'  # Project ID
+    # The name of the zone for this request.
+    zone = 'europe-west6-a'  # Zone information
+
+    # Name of the instance resource to stop.
+    instance = '1784889149398741812'  # instance id
+
+    request = service.instances().stop(project=project, zone=zone, instance=instance)
+    response = request.execute()
+
 if __name__ == "__main__":
     clean_data()
     listening_sessions_job()
     songs_cdc_job()
+    shutdown_vm()
