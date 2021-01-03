@@ -2,7 +2,7 @@ from src.api_utilities import SongsBatchSource, UsersBatchSource
 from src.cdc import ListeningSessionsCDC, SongsCDC
 from src.destination import CloudDatalake, CloudStorage
 import shutil
-from flask import Flask
+#from flask import Flask
 
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ def clean_data():
     except:
         pass
         
-@app.route('/')
+#@app.route('/')
 def listening_sessions_job():
     datalake = CloudStorage(dir_path='data/listening_sessions')
     # datalake = CloudDatalake(dir_path='data/songs')
@@ -37,6 +37,6 @@ def songs_cdc_job():
     scdc.get_fresh_rows()
 
 if __name__ == "__main__":
-    #clean_data()
-    app.run(host='127.0.0.1', port=8080, debug=True)
-    #listening_sessions_job()
+    clean_data()
+    #app.run(host='127.0.0.1', port=8080, debug=True)
+    listening_sessions_job()
