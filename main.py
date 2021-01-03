@@ -2,6 +2,7 @@ from src.api_utilities import SongsBatchSource, UsersBatchSource
 from src.cdc import ListeningSessionsCDC, SongsCDC
 from src.destination import CloudDatalake, CloudStorage
 import shutil
+import os
 
 def clean_data():
     try:
