@@ -3,6 +3,7 @@ from os import path
 import time
 from abc import ABCMeta, abstractmethod
 from .abstract_cdc import AbstractCDC
+from .constants import *
 
 class AbstractLogCDC(AbstractCDC, metaclass = ABCMeta):
 
@@ -34,7 +35,7 @@ class AbstractLogCDC(AbstractCDC, metaclass = ABCMeta):
     def read_from_sync(self):
         if not path.isfile(self.syncFile):
             with open(self.syncFile, 'w') as f:
-                dd = { self.chrono_attr : 1609545600 }
+                dd = { self.chrono_attr : DEFAULT_TIMESTAMP }
                 print(dd)
                 json.dump(dd, f)
         
