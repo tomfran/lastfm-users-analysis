@@ -35,7 +35,10 @@ def shutdown_vm():
     os.system('sudo shutdown now')
 
 if __name__ == "__main__":
-    clean_data()
-    listening_sessions_job()
-    songs_cdc_job()
+    try:
+        clean_data()
+        listening_sessions_job()
+        songs_cdc_job()
+    except:
+        pass
     shutdown_vm()
