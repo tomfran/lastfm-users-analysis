@@ -1,6 +1,0 @@
-cron:
-- description: "daily recenttracks job"
-  #url:  "lastfm-299413.appspot.com"
-  url: /daily/recenttracks
-  schedule: every day 22:00
-  timezone: Europe/Rome
