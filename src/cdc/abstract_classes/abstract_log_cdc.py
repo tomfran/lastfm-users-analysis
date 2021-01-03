@@ -34,7 +34,7 @@ class AbstractLogCDC(AbstractCDC, metaclass = ABCMeta):
     def read_from_sync(self):
         if not path.isfile(self.syncFile):
             with open(self.syncFile, 'w') as f:
-                dd = { self.chrono_attr : 1609200000 }
+                dd = { self.chrono_attr : 1609545600 }
                 print(dd)
                 json.dump(dd, f)
         
