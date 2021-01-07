@@ -44,8 +44,8 @@ class AbstractRegistryCDC(AbstractCDC, metaclass = ABCMeta):
         
         if inserted_rows + modified_rows:
             self.destination.write(inserted_rows + modified_rows)
-            self.destination.commit()
             self.update_sync(state)
+            self.destination.commit()
             # print('\tREGISTRY CDC: done')
         # else:
             # print('\tREGISTRY CDC: nothing changed\n')

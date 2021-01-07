@@ -5,7 +5,7 @@ __pycache__/
 .vscode
 # C extensions
 *.so
-
+.architecture-design
 # Distribution / packaging
 .Python
 build/
