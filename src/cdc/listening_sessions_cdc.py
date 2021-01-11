@@ -43,7 +43,7 @@ class ListeningSessionsCDC(AbstractLogCDC):
 
                 artist = tr['artist']['#text']
                 name = tr['name']
-                key = hash((artist + name).lower())
+                key = hash(tr['url'])
                 songs_dict[key] = {"artist": artist, "track" : name}
                 return {
                     'user_id' : user,

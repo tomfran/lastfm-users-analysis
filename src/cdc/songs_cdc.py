@@ -27,7 +27,7 @@ class SongsCDC(AbstractRegistryCDC):
                 'title' : tr['name'], 
                 'duration' : tr['duration'], 
                 'url' : tr['url'],
-                'song_id' : hash((artist['name'] + tr['name']).lower()),
+                'song_id' : hash(tr['url'])
             }
 
             album = tr.get('album')

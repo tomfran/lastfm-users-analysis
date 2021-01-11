@@ -42,9 +42,12 @@ class AbstractRegistryCDC(AbstractCDC, metaclass = ABCMeta):
             modified_rows = [e for e in table if hash(e[self.key_attr]) in modified_keys]
             # print(f'\tREGISTRTY CDC: found {len(modified_rows)} modified lines')
         
+        new_state = state
+        new_state += [e for e in old_state if e['khash'] not in current_keys_set]
+
         if inserted_rows + modified_rows:
             self.destination.write(inserted_rows + modified_rows)
-            self.update_sync(state)
+            self.update_sync(new_state)
             self.destination.commit()
             # print('\tREGISTRY CDC: done')
         # else:
