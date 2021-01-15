@@ -32,7 +32,7 @@ class ListeningSessionsCDC(AbstractLogCDC):
         path = f"{self.songs_file_path}/{datetime.today().strftime('%Y%m%d')}.json"
         with open(path, 'a+') as f:
             f.write(json.dumps(songs_dict, indent=4, sort_keys=True, ensure_ascii=False))
-        self.destination.upload_songs_to_request(path)
+        # self.destination.upload_songs_to_request(path)
 
     def access_fields(self, tables):
         songs_dict = {}
