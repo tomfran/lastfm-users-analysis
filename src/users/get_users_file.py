@@ -2,7 +2,7 @@ import json
 import datetime as dt
 from users import *
 
-exec(open("config.py").read())
+from config import *
 
 def is_active_user(user):
     ret = False

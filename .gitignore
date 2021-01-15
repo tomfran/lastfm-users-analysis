@@ -5,7 +5,10 @@ __pycache__/
 .vscode
 # C extensions
 *.so
-.architercure-design/
+architercure-design/
+dump.txt
+tmp.json
+TODO
 # Distribution / packaging
 .Python
 build/
