@@ -12,7 +12,7 @@ def clean_data():
         
 def listening_sessions_job():
     datalake = CloudDatalake(dir_path='data/listening_sessions')
-    ub = UsersBatchSource(users_file_path='src/users/users_small.json')
+    ub = UsersBatchSource(users_file_path='src/users/users.json')
     lscdc = ListeningSessionsCDC(source=ub, 
                                  destination=datalake, 
                                  syncFile='data/listening_sessions/sync.json', 

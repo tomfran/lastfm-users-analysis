@@ -9,6 +9,7 @@ architercure-design/
 dump.txt
 tmp.json
 TODO
+data/*
 # Distribution / packaging
 .Python
 build/
