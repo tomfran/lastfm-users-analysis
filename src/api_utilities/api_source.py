@@ -5,16 +5,37 @@ import json
 import urllib
 
 class ApiSource(AbstractSource):
+    """Class that sends one api requests
+    """
     def __init__(self, method, method_params = {}, other_params = {}):
+        """Constructor
+
+        Args:
+            method (String): method name
+            method_params (dict, optional): method parameters. Defaults to {}.
+            other_params (dict, optional): other parameters. Defaults to {}.
+        """
         self.method = method
         self.method_params = method_params
         self.other_params = other_params
 
     def set_params(self, mp, op):
+        """Setter for instance attributes
+
+        Args:
+            mp (dict): method parameters
+            op (dict): other parameters
+        """
         self.method_params = mp
         self.other_params = op
 
     def get_request_data(self):
+        """Get post request payload
+
+        Returns:
+            dict: dictionary with all attributes
+            necessary to send the post request
+        """
         data = {}
         data.update(self.method_params)
         data.update(self.other_params)
@@ -22,8 +43,13 @@ class ApiSource(AbstractSource):
         data['api_key'] = KEY
         data['format'] = 'json'
         return data
-    # read  source
+
     def read(self):
+        """Send the actual api request
+
+        Returns:
+            dict: dictionary with json api request 
+        """
         try:
             r = requests.post(BASE, data=self.get_request_data())
             return r.json()

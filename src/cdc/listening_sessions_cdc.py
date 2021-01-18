@@ -5,14 +5,34 @@ import json
 import os
 
 class ListeningSessionsCDC(AbstractLogCDC):
-
+    """
+    Listening sessions cdc implementation
+    It implements a log cdc logic, as listening sessions have a 
+    timestamp as chrono attribute.
+    """
     def __init__(self, source, destination, syncFile, chrono_attr, sync_attr, songs_file_path):
+        """
+        Constructor
+
+        Args:
+            source (AbstractSource): source class to read data
+            destination (AbstractDestination): class that implements write logic
+            syncFile (String): path to the sync file to update 
+            chrono_attr (String): chrono attribute in the data
+            sync_attr (String): sync attribute to implement log cdc logic
+            songs_file_path (String): path to songs to request file
+        """
         super().__init__(source, destination, syncFile, chrono_attr, sync_attr)
         self.songs_file_path = songs_file_path
         if not os.path.isdir(songs_file_path):
             os.makedirs(songs_file_path)
 
     def get_fresh_rows(self):
+        """
+        Get the fresh rows from the source.
+        It implements the log cdc logic reading the chrono attribute
+        from the sync file.
+        """
         self.destination.rollback()
         # read the threshold from the sync file
         ths = self.read_from_sync()
@@ -29,12 +49,28 @@ class ListeningSessionsCDC(AbstractLogCDC):
             self.destination.commit()
 
     def save_songs_to_request(self, songs_dict):
+        """
+        Save songs to request.
+        Basically a list of all the songs listenend by the users.
+
+        Args:
+            songs_dict (dict): dictionary with 'song_id' and song details
+        """
         path = f"{self.songs_file_path}/{datetime.today().strftime('%Y%m%d')}.json"
         with open(path, 'a+') as f:
             f.write(json.dumps(songs_dict, indent=4, sort_keys=True, ensure_ascii=False))
         self.destination.upload_songs_to_request(path)
 
     def access_fields(self, tables):
+        """
+        Access the needed fields from the source data
+
+        Args:
+            tables (list): list of data coming from the source
+
+        Returns:
+            list: list of properly trimmed data
+        """
         songs_dict = {}
         def process_track(tr, user):
             try:

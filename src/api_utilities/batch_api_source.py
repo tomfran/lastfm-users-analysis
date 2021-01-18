@@ -4,14 +4,36 @@ import os
 from datetime import datetime
 
 class BatchApiSource():
+    """
+    The class implement the batch api request logic, 
+    using a single api source instance, updating the 
+    method params before each request
+    """
     def __init__(self, method):
+        """Constructor
+
+        Args:
+            method (String): api method to call
+        """
         self.api_source = ApiSource(method=method)
         self.method_params_list = []
         
     def update_param_list(self, method_params_list):
+        """Update the method param list, containing
+        parameters for each api call
+
+        Args:
+            method_params_list (List): list of dictionaries containing
+            api method parameters
+        """
         self.method_params_list = method_params_list
 
     def read(self):
+        """Read data from the api
+
+        Returns:
+            List: List of dictionaries containing api responses
+        """
         ret = []
         failed_requests = []
         print(f'Batch API requests for {self.api_source.method}')
