@@ -16,10 +16,10 @@ class SongsCDC(AbstractRegistryCDC):
         Args:
             source (AbstractSource): source class to read data
             destination (AbstractDestination): class that implements write logic
-            syncFile (String): path to the sync file to update 
-            songs_to_request_dir (String): path to the directory containing 
+            syncFile (str): path to the sync file to update 
+            songs_to_request_dir (str): path to the directory containing 
                                            songs to request file
-            key_attr (String): attribute to be used as a key in the registry
+            key_attr (str): attribute to be used as a key in the registry
                                cdc logic
         """
         super().__init__(source, destination, syncFile, key_attr)

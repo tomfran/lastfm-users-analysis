@@ -13,7 +13,7 @@ class BatchApiSource():
         """Constructor
 
         Args:
-            method (String): api method to call
+            method (str): api method to call
         """
         self.api_source = ApiSource(method=method)
         self.method_params_list = []

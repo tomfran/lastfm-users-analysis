@@ -17,10 +17,10 @@ class ListeningSessionsCDC(AbstractLogCDC):
         Args:
             source (AbstractSource): source class to read data
             destination (AbstractDestination): class that implements write logic
-            syncFile (String): path to the sync file to update 
-            chrono_attr (String): chrono attribute in the data
-            sync_attr (String): sync attribute to implement log cdc logic
-            songs_file_path (String): path to songs to request file
+            syncFile (str): path to the sync file to update 
+            chrono_attr (str): chrono attribute in the data
+            sync_attr (str): sync attribute to implement log cdc logic
+            songs_file_path (str): path to songs to request file
         """
         super().__init__(source, destination, syncFile, chrono_attr, sync_attr)
         self.songs_file_path = songs_file_path

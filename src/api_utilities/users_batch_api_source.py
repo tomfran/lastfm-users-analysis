@@ -11,7 +11,7 @@ class UsersBatchSource(BatchApiSource):
         Constructor
 
         Args:
-            users_file_path (String): path to the user file
+            users_file_path (str): path to the user file
         """
         self.users_file_path = users_file_path
         super().__init__('user.getrecenttracks')

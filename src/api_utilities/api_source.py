@@ -11,7 +11,7 @@ class ApiSource(AbstractSource):
         """Constructor
 
         Args:
-            method (String): method name
+            method (str): method name
             method_params (dict, optional): method parameters. Defaults to {}.
             other_params (dict, optional): other parameters. Defaults to {}.
         """
