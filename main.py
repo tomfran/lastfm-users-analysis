@@ -5,12 +5,20 @@ import shutil
 import os
 
 def clean_data():
+    """
+    Remove local data folder
+    """
     try:
         shutil.rmtree('data')
     except:
         pass
         
 def listening_sessions_job():
+    """
+    Start the listening sessions job.
+    This will create source destination and cdc
+    class instances to then run the get fresh rows method
+    """
     datalake = CloudStorage(dir_path='data/listening_sessions')
     ub = UsersBatchSource(users_file_path='src/users/users.json')
     lscdc = ListeningSessionsCDC(source=ub, 
@@ -22,6 +30,11 @@ def listening_sessions_job():
     lscdc.get_fresh_rows()
 
 def songs_cdc_job():
+    """
+    Start the songs sessions job.
+    This will create source destination and cdc
+    class instances to then run the get fresh rows method
+    """
     sb = SongsBatchSource()
     datalake = CloudStorage(dir_path='data/songs')
     scdc = SongsCDC(source=sb, 
@@ -32,6 +45,9 @@ def songs_cdc_job():
     scdc.get_fresh_rows()
 
 def shutdown_vm():
+    """
+    Shutdown the VM after cdc job finishes
+    """
     os.system('sudo shutdown now')
 
 if __name__ == "__main__":
