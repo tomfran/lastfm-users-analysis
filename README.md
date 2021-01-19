@@ -30,5 +30,7 @@ Note that the Virtual Machine stops itself after it completes
 the data collection phase, to avoid unnecessary run time. The
 stop function is a safe net to prevent constant running of the Virtual Machine in case something goes wrong.
 
-## Apache Spark
-...
+## Dataproc
+After the data collection phase, a dataproc environment is used to compute stats about gathered data.
+
+All the details can be found in [this repository](https://github.com/tomfran/lastfm-spark).

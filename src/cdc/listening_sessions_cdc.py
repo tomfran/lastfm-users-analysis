@@ -87,11 +87,6 @@ class ListeningSessionsCDC(AbstractLogCDC):
                     'ts' : int(tr['date']['uts'])
                 }
             except:
-                # if not os.path.isdir("log"):
-                #     os.makedirs("log")
-                # with open("log/listening_session_errors.log", 'a+') as f:
-                #     f.write(f"{datetime.today().strftime('%Y%m%d')}-{str(tr)}\n")
-                # TODO: sistemare logging
                 return {}
         ret = []
         for table in tables:
