@@ -32,5 +32,4 @@ stop function is a safe net to prevent constant running of the Virtual Machine i
 
 ## Dataproc
 After the data collection phase, a dataproc environment is used to compute stats about gathered data.
-
-All the details can be found in [this repository](https://github.com/tomfran/lastfm-spark).
+The details can be found in the [notebook](https://github.com/tomfran/lastfm-project/blob/main/spark_notebook.ipynb)
